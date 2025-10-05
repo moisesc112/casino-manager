@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerController _playerController;
-    void Start()
+    private void Awake()
     {
         _playerController = GetComponent<PlayerController>(); 
     }
@@ -20,7 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (_playerController && context.performed)
+        if (_playerController)
             _playerController.JumpInput();
         else
             Debug.LogError("Player Controller is Null");
