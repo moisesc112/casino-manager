@@ -1,0 +1,53 @@
+# Normalize text files to LF by default (good for cross-platform Unity repos)
+* text=auto eol=lf
+
+# Unity YAML/text assets (keep as text for sane diffs)
+*.meta    text
+*.unity   text
+*.prefab  text
+*.asset   text
+*.mat     text
+*.anim    text
+*.shader  text
+*.cginc   text
+*.compute text
+*.json    text
+*.xml     text
+*.yaml    text
+*.yml     text
+*.txt     text
+*.md      text
+*.cs      text diff=csharp
+
+# Keep CRLF where Windows actually needs it
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Treat common binaries as binary (no line-ending changes, no diff)
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.psd   binary
+*.tga   binary
+*.tif   binary
+*.tiff  binary
+*.gif   binary
+*.mp3   binary
+*.wav   binary
+*.ogg   binary
+*.mp4   binary
+*.mov   binary
+*.avi   binary
+*.fbx   binary
+*.obj   binary
+*.blend binary
+*.zip   binary
+*.7z    binary
+*.rar   binary
+*.unitypackage binary
+
+# If you use Git LFS, uncomment relevant lines below
+#*.psd filter=lfs diff=lfs merge=lfs -text
+#*.fbx filter=lfs diff=lfs merge=lfs -text
+#*.wav filter=lfs diff=lfs merge=lfs -text
+#*.mp4 filter=lfs diff=lfs merge=lfs -text
