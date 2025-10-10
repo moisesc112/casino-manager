@@ -55,9 +55,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMove()
     {
-        var moveLocal = new Vector3(_targetMovement.x, 0f, _targetMovement.z);
-        _currentMovement = (transform.right * moveLocal.x + transform.forward * moveLocal.z).normalized;
-
+        if (_characterController.isGrounded)
+        {
+            var moveLocal = new Vector3(_targetMovement.x, 0f, _targetMovement.z);
+            _currentMovement = (transform.right * moveLocal.x + transform.forward * moveLocal.z).normalized;
+        }
         _characterController.Move(_currentMovement * _moveSpeed * Time.deltaTime);
     }
 
