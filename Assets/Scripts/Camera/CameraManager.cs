@@ -3,11 +3,10 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _player;
-    [SerializeField] private Vector3 _offset;
+    [SerializeField] private Transform _cameraHolder;
 
     void Update()
     {
-        transform.position = _player.transform.position + _offset;
+        transform.position = _cameraHolder.position;
     }
 }

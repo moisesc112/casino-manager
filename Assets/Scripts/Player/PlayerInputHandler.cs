@@ -25,4 +25,14 @@ public class PlayerInputHandler : MonoBehaviour
         else
             Debug.LogError("Player Controller is Null");
     }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        var lookInput = context.ReadValue<Vector2>();
+
+        if (_playerController)
+            _playerController.RotationInput(lookInput.x, lookInput.y);
+        else
+            Debug.LogError("Player Controller is Null");
+    }
 }
