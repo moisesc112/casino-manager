@@ -5,28 +5,35 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 3.0f;
     [SerializeField] private float _jumpForce = 1.0f;
     [SerializeField] private float _gravity = -9.81f;
+    [SerializeField] private float _mouseSensitivity = 0.05f;
+    [SerializeField] private Transform _cameraTransform;
 
     private CharacterController _characterController;
     private Vector3 _currentMovement;
     private Vector3 _targetMovement;
     private Vector3 _velocity;
 
+    private float _pitch;
+    private float _yaw;
+
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        _currentMovement = _targetMovement;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
-        _currentMovement = _targetMovement;
         HandleMove();
         HandleJump();
+        HandleRotation();
     }
     public void MoveInput(Vector2 moveInput)
     {
-        _targetMovement.x = moveInput.x * _moveSpeed;
-        _targetMovement.z = moveInput.y * _moveSpeed;
+        _targetMovement.x = moveInput.x;
+        _targetMovement.z = moveInput.y;
     }
 
     public void JumpInput()
@@ -35,12 +42,26 @@ public class PlayerController : MonoBehaviour
             _velocity.y = Mathf.Sqrt(-2f * _gravity * _jumpForce);   
     }
 
-    void HandleMove()
+    public void RotationInput(float mouseX, float mouseY)
     {
-        _characterController.Move(_currentMovement * Time.deltaTime);
+        mouseX *= _mouseSensitivity;
+        mouseY *= _mouseSensitivity;
+
+        _pitch -= mouseY;
+        _yaw += mouseX;
+
+        _pitch = Mathf.Clamp(_pitch, -90f, 90f);
     }
 
-    void HandleJump()
+    private void HandleMove()
+    {
+        var moveLocal = new Vector3(_targetMovement.x, 0f, _targetMovement.z);
+        _currentMovement = (transform.right * moveLocal.x + transform.forward * moveLocal.z).normalized;
+
+        _characterController.Move(_currentMovement * _moveSpeed * Time.deltaTime);
+    }
+
+    private void HandleJump()
     {
         if (_characterController.isGrounded && _velocity.y < 0f)
             _velocity.y = _gravity;
@@ -49,4 +70,12 @@ public class PlayerController : MonoBehaviour
         _characterController.Move(_velocity * Time.deltaTime);
     }
 
+    private void HandleRotation()
+    {
+        transform.rotation = Quaternion.Euler(0f, _yaw, 0f);
+
+        if (_cameraTransform != null)
+            _cameraTransform.localRotation = Quaternion.Euler(_pitch, 0f, 0f);
+
+    }
 }
